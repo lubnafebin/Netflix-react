@@ -1,3 +1,4 @@
-<h1>Netflix Clone</h1>
-    <h2>Description:</h2>
-    <p>A Netflix web application built with React that fetches and displays movie and TV show data using The Movie Database(TMDB) API</p>
+# Netflix Clone
+
+## Description
+A Netflix-inspired web application built with React. It fetches and displays movie and TV show data using The Movie Database (TMDB) API.

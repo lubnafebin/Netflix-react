@@ -1,44 +1,83 @@
-import React, { useEffect, useState } from 'react'
-import { API_KEY, imgUrl } from '../../constants/Constants'
-import axios from '../../axios'
-import './Banner.css'
+import { useEffect, useState } from "react";
+import { API_KEY, imgUrl } from "../../constants/Constants";
+import axios from "../../axios";
+import "./Banner.css";
+import YouTube from "react-youtube";
 
 function Banner() {
-    const [movie, setMovie] = useState()
-    const [movies, setMovies] = useState([])
-    useEffect(() => {
-        axios.get(`trending/all/week?api_key=${API_KEY}&language=en-US`).then((response) => {
-            console.log(response.data.results[0]);
-            setMovies(response.data.results);
-        })
-    }, []);
-    useEffect(() => {
-        const setBanner =()=>{
-            const index = Math.floor(Math.random() * 20);
-            setMovie(movies[index])            
+  const [movie, setMovie] = useState();
+  const [movies, setMovies] = useState([]);
+  const [trailer, setTrailer] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(`trending/all/week?api_key=${API_KEY}&language=en-US`)
+      .then((response) => {
+        setMovies(response.data.results);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (movies.length > 0) {
+      const intervalId = setInterval(() => {
+        const index = Math.floor(Math.random() * movies.length);
+        setMovie(movies[index]);
+      }, 10000);
+      return () => clearInterval(intervalId);
+    }
+  }, [movies]);
+
+  const handlePlayClick = () => {
+    if (!movie) return;
+    axios
+      .get(`/movie/${movie.id}/videos?api_key=${API_KEY}&language=en-US`)
+      .then((response) => {
+        const videos = response.data.results;
+        if (videos.length > 0) {
+          setTrailer(videos[0]);
+        } else {
+          console.log("Trailer not available");
         }
-        if(movies.length>0){
-            setBanner();
-            window.setInterval(setBanner, 5000);
-        }
-     }, [movies])
-    return (
-        <div
-            style={{ backgroundImage: movie?.backdrop_path ? `url(${imgUrl + movie.backdrop_path})` : "none" }}>
-            <div className='banner'>
-                <div className='content'>
-                    <h1 className='title'>{movie ? movie.title : ""}</h1>
-                    <div className='banner_buttons'>
-                        <button className='button'>Play</button>
-                        <button className='button'>My list</button>
-                    </div>
-                    <h1 className='description'>{movie ? movie.overview : ""}</h1>
-                </div>
-                <div className="fade">
-                </div>
-            </div>
+      });
+  };
+
+  return (
+    <div
+      style={{
+        backgroundImage: movie?.backdrop_path
+          ? `url(${imgUrl + movie.backdrop_path})`
+          : "none",
+      }}
+    >
+      <div className="banner">
+        <div className="content">
+          <h1 className="title">{movie ? movie.title || movie.name : ""}</h1>
+          <div className="banner_buttons">
+            <button className="button" onClick={handlePlayClick}>
+              Play
+            </button>
+            <button className="button">My list</button>
+          </div>
+          <h1 className="description">{movie ? movie.overview : ""}</h1>
         </div>
-    )
+        <div className="fade"></div>
+        {trailer && (
+          <div className="trailerOverlay" onClick={() => setTrailer(null)}>
+            <div className="trailer" onClick={(e) => e.stopPropagation()}>
+              <YouTube
+                videoId={trailer.key}
+                opts={{
+                  height: "390",
+                  width: "100%",
+                  playerVars: { autoplay: 1 },
+                }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default Banner   
+export default Banner;

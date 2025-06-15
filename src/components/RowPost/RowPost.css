@@ -1,5 +1,4 @@
 .row{
-    /* margin-left: 20px; */
     color: #fff;
 }
 .posters{
@@ -24,4 +23,24 @@
 }
 .poster:hover{
     transform: scale(1.1);
+}
+.trailerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.trailer {
+  width: 50%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
 }
