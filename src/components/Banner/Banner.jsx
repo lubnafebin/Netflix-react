@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { API_KEY, imgUrl } from "../../constants/Constants";
+const API_KEY = import.meta.env.VITE_API_KEY;
+const imgUrl = import.meta.env.VITE_IMG_URL;
 import axios from "../../axios";
 import "./Banner.css";
 import YouTube from "react-youtube";
@@ -22,7 +23,7 @@ function Banner() {
       const intervalId = setInterval(() => {
         const index = Math.floor(Math.random() * movies.length);
         setMovie(movies[index]);
-      }, 10000);
+      }, 5000);
       return () => clearInterval(intervalId);
     }
   }, [movies]);

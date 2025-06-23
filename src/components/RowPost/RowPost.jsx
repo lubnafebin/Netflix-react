@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import Youtube from "react-youtube";
 import "./RowPost.css";
 import PropTypes from "prop-types";
-import { imgUrl, API_KEY } from "../../constants/Constants";
 import axios from "../../axios";
+const imgUrl = import.meta.env.VITE_IMG_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 function RowPost(props) {
   const [movies, setMovies] = useState([]);

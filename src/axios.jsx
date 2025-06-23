@@ -1,7 +1,7 @@
-import axios  from "axios";
-import {baseUrl} from './constants/Constants'
+import axios from "axios";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const instance = axios.create({
-    baseURL:baseUrl,
-})
+  baseURL: baseUrl,
+});
 
-export default instance
+export default instance;
