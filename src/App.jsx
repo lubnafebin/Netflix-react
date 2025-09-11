@@ -1,7 +1,7 @@
 import "./App.css";
 import {
   action,
-  orginals,
+  originals,
   ComedyMovies,
   HorrorMovies,
   RomanceMovies,
@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <Navbar />
       <Banner />
-      <RowPost url={orginals} title="Netflix Original" />
+      <RowPost url={originals} title="Netflix Original" />
       <RowPost url={action} title="Action" isSmall />
       <RowPost url={ComedyMovies} title="ComedyMovies" isSmall />
       <RowPost url={HorrorMovies} title="HorrorMovies" isSmall />
