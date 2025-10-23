@@ -2,11 +2,13 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: 30px;
+    height: 20px;
     padding: 20px;
     display: flex;
     justify-content: space-between;
     background-color: #111111b6;
+    background-image: linear-gradient(180deg, transparent, rgba(37, 37, 37, .61), #111);
+
 }
 
 .logo {

@@ -44,39 +44,38 @@ function Banner() {
 
   return (
     <div
+      className="banner"
       style={{
         backgroundImage: movie?.backdrop_path
           ? `url(${imgUrl + movie.backdrop_path})`
           : "none",
       }}
     >
-      <div className="banner">
-        <div className="content">
-          <h1 className="title">{movie ? movie.title || movie.name : ""}</h1>
-          <div className="banner_buttons">
-            <button className="button" onClick={handlePlayClick}>
-              Play
-            </button>
-            <button className="button">My list</button>
-          </div>
-          <h1 className="description">{movie ? movie.overview : ""}</h1>
+      <div className="content">
+        <h1 className="title">{movie ? movie.title || movie.name : ""}</h1>
+        <div className="banner_buttons">
+          <button className="button" onClick={handlePlayClick}>
+            Play
+          </button>
+          <button className="button">Details</button>
         </div>
-        <div className="fade"></div>
-        {trailer && (
-          <div className="trailerOverlay" onClick={() => setTrailer(null)}>
-            <div className="trailer" onClick={(e) => e.stopPropagation()}>
-              <YouTube
-                videoId={trailer.key}
-                opts={{
-                  height: "390",
-                  width: "100%",
-                  playerVars: { autoplay: 1 },
-                }}
-              />
-            </div>
-          </div>
-        )}
+        <h1 className="description">{movie ? movie.overview : ""}</h1>
       </div>
+      <div className="fade"></div>
+      {trailer && (
+        <div className="trailerOverlay" onClick={() => setTrailer(null)}>
+          <div className="trailer" onClick={(e) => e.stopPropagation()}>
+            <YouTube
+              videoId={trailer.key}
+              opts={{
+                height: "390",
+                width: "100%",
+                playerVars: { autoplay: 1 },
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
