@@ -4,20 +4,17 @@
     color: white;
     top: 0;
 }
-
 .content {
     padding-top: 140px;
     height: 190px;
     padding-left: 15px;
     margin: 1.5rem;
 }
-
 .title {
     font-size: 3rem;
     font-weight: 800;
     padding-bottom: 0.3rem;
 }
-
 .button {
     color: white;
     outline: none;
@@ -30,12 +27,10 @@
     cursor: pointer;
     margin-right: 1rem;
 }
-
 .button:hover {
     color: black;
     background-color: white;
 }
-
 .description {
     width: 45rem;
     line-height: 1.2;
@@ -44,12 +39,10 @@
     height: 70px;
     max-width: 360px;
 }
-
 .fade {
     height: 10rem;
     background-image: linear-gradient(180deg, transparent, rgba(37, 37, 37, .61), #111);
 }
-
 .trailerOverlay {
   position: fixed;
   top: 0;
@@ -62,8 +55,106 @@
   justify-content: center;
   z-index: 999;
 }
-
 .trailer {
   max-width: 900px;
   width: 50%;
+}
+
+@media (max-width: 1024px) {
+  .banner {
+    height: 420px;
+  }
+  .content {
+    padding-top: 100px;
+    height: auto;
+    margin: 1rem;
+  }
+  .title {
+    font-size: 2.6rem;
+  }
+  .description {
+    width: auto;
+    max-width: 420px;
+  }
+  .trailer {
+    width: 70%;
+    max-width: 760px;
+  }
+}
+
+/* Tablets / landscape phones */
+@media (max-width: 768px) {
+  .banner {
+    height: 360px;
+    background-position: center top;
+  }
+  .content {
+    padding-top: 100px;
+    margin: 0.75rem;
+    padding-left: 12px;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .button {
+    padding: 0.45rem 1rem;
+    font-size: 0.95rem;
+  }
+  .description {
+    width: 100%;
+    max-width: 90%;
+    font-size: 0.8rem;
+  }
+  .trailer {
+    width: 80%;
+    max-width: 720px;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .banner {
+    height: 380px;
+    background-position: center;
+  }
+  .content {
+    padding-top: 160px;
+    margin: 0.5rem;
+  }
+  .title {
+    font-size: 1.6rem;
+    line-height: 1.1;
+  }
+  .button {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.6rem;
+  }
+  .description {
+    max-width: 100%;
+    width: 100%;
+    font-size: 0.7rem;
+    height: auto;
+    padding-top: 0.6rem;
+  }
+  .trailerOverlay{
+    height: 400px;
+  }
+  .trailer {
+    width: 50%;
+    max-width: 640px;
+  }
+}
+
+/* Very small devices / narrow landscape */
+@media (max-width: 360px) {
+  .title {
+    font-size: 1.1rem;
+  }
+  .button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  .trailer {
+    width: 50%;
+  }
 }
