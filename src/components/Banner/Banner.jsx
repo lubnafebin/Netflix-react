@@ -23,7 +23,7 @@ function Banner() {
       const intervalId = setInterval(() => {
         const index = Math.floor(Math.random() * movies.length);
         setMovie(movies[index]);
-      }, 5000);
+      }, 7000);
       return () => clearInterval(intervalId);
     }
   }, [movies]);
@@ -61,21 +61,22 @@ function Banner() {
         </div>
         <h1 className="description">{movie ? movie.overview : ""}</h1>
       </div>
-      <div className="fade"></div>
-      {trailer && (
-        <div className="trailerOverlay" onClick={() => setTrailer(null)}>
-          <div className="trailer" onClick={(e) => e.stopPropagation()}>
-            <YouTube
-              videoId={trailer.key}
-              opts={{
-                height: "390",
-                width: "100%",
-                playerVars: { autoplay: 1 },
-              }}
-            />
+      <div className="fade">
+        {trailer && (
+          <div className="trailerOverlay" onClick={() => setTrailer(null)}>
+            <div className="trailer" onClick={(e) => e.stopPropagation()}>
+              <YouTube
+                videoId={trailer.key}
+                opts={{
+                  height: "390",
+                  width: "100%",
+                  playerVars: { autoplay: 1 },
+                }}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
