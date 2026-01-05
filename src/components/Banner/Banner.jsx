@@ -4,12 +4,13 @@ const imgUrl = import.meta.env.VITE_IMG_URL;
 import axios from "../../axios";
 import "./Banner.css";
 import YouTube from "react-youtube";
+import { useNavigate } from "react-router-dom";
 
 function Banner() {
   const [movie, setMovie] = useState();
   const [movies, setMovies] = useState([]);
   const [trailer, setTrailer] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`trending/all/week?api_key=${API_KEY}&language=en-US`)
@@ -57,7 +58,12 @@ function Banner() {
           <button className="button" onClick={handlePlayClick}>
             Play
           </button>
-          <button className="button">Details</button>
+          <button
+            className="button"
+            onClick={() => navigate(`/details/${movie.id}`)}
+          >
+            Details
+          </button>
         </div>
         <h1 className="description">{movie ? movie.overview : ""}</h1>
       </div>
