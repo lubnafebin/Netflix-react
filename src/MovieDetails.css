@@ -57,6 +57,7 @@
   margin-bottom: 15px;
   text-decoration: none;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .overview {
