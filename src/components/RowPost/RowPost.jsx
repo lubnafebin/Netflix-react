@@ -1,37 +1,20 @@
 import { useEffect, useState } from "react";
-import Youtube from "react-youtube";
 import "./RowPost.css";
 import PropTypes from "prop-types";
 import axios from "../../axios";
+import { useNavigate } from "react-router-dom";
 const imgUrl = import.meta.env.VITE_IMG_URL;
-const API_KEY = import.meta.env.VITE_API_KEY;
 
 function RowPost(props) {
   const [movies, setMovies] = useState([]);
-  const [urlId, setUrlId] = useState(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios.get(props.url).then((response) => {
       setMovies(response.data.results);
     });
   }, []);
-  const opts = {
-    height: "390",
-    width: "640",
-    playerVars: {
-      autoplay: 1,
-    },
-  };
-  const handleMovie = (id) => {
-    axios
-      .get(`/movie/${id}/videos?api_key=${API_KEY}&language=en-US`)
-      .then((response) => {
-        if (response.data.results.length !== 0) {
-          setUrlId(response.data.results[0]);
-        } else {
-          console.log("Not available");
-        }
-      });
-  };
+
   return (
     <div className="row">
       <h2>{props.title}</h2>
@@ -39,7 +22,7 @@ function RowPost(props) {
         {movies.map((obj) => (
           <img
             key={obj.id}
-            onClick={() => handleMovie(obj.id)}
+            onClick={() => navigate(`details/${obj.media_type}/${obj.id}`)}
             alt="poster"
             className={props.isSmall ? "smallPoster" : "poster"}
             src={
@@ -52,13 +35,6 @@ function RowPost(props) {
           />
         ))}
       </div>
-      {urlId && (
-        <div className="trailerOverlay" onClick={() => setUrlId(null)}>
-          <div className="trailer" onClick={(e) => e.stopPropagation()}>
-            <Youtube opts={opts} videoId={urlId.key} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
