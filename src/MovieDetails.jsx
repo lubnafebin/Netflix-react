@@ -1,34 +1,45 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./MovieDetails.css";
+import axios from "./axios";
+import YouTube from "react-youtube";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const IMG_URL = import.meta.env.VITE_IMG_URL;
 
 export const MovieDetails = () => {
-  const { id } = useParams();
+  const { id, type } = useParams();
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [trailer, setTrailer] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const handleMovie = (id) => {
+    axios
+      .get(`/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`)
+      .then((response) => {
+        const trailerVideo = response.data.results.find(
+          (video) => video.type === "Trailer"
+        );
+        if (trailerVideo) {
+          setTrailer(trailerVideo);
+        } else {
+          console.log("Trailer not available");
+        }
+      });
+  };
+
   useEffect(() => {
-    if (!id) return;
+    if (!id || !type) return;
 
     const fetchDetails = async () => {
       try {
         let type = "movie";
-
-        let res = await fetch(
-          `${BASE_URL}/movie/${id}?api_key=${API_KEY}`
-        );
-
+        let res = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}`);
         if (res.status === 404) {
           type = "tv";
-          res = await fetch(
-            `${BASE_URL}/tv/${id}?api_key=${API_KEY}`
-          );
+          res = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}`);
         }
 
         const data = await res.json();
@@ -40,18 +51,6 @@ export const MovieDetails = () => {
         );
         const castData = await castRes.json();
         setCast(castData.cast?.slice(0, 12) || []);
-
-        // Fetch trailer
-        const videoRes = await fetch(
-          `${BASE_URL}/${type}/${id}/videos?api_key=${API_KEY}`
-        );
-        const videoData = await videoRes.json();
-
-        const trailerVideo = videoData.results?.find(
-          (v) => v.type === "Trailer" && v.site === "YouTube"
-        );
-        setTrailer(trailerVideo?.key);
-
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -88,21 +87,27 @@ export const MovieDetails = () => {
 
             <div className="meta">
               <span>{movie.release_date || movie.first_air_date}</span>
-              <span>
-                {movie.genres?.map((g) => g.name).join(", ")}
-              </span>
+              <span>{movie.genres?.map((g) => g.name).join(", ")}</span>
               {movie.runtime && <span>{movie.runtime} min</span>}
             </div>
 
+            <button className="play-btn" onClick={() => handleMovie(movie.id)}>
+              ▶ Play Trailer
+            </button>
+
             {trailer && (
-              <a
-                href={`https://www.youtube.com/watch?v=${trailer}`}
-                target="_blank"
-                rel="noreferrer"
-                className="play-btn"
-              >
-                ▶ Play Trailer
-              </a>
+              <div className="trailerOverlay" onClick={() => setTrailer(null)}>
+                <div className="trailer" onClick={(e) => e.stopPropagation()}>
+                  <YouTube
+                    videoId={trailer.key}
+                    opts={{
+                      height: "390",
+                      width: "640",
+                      playerVars: { autoplay: 1 },
+                    }}
+                  />
+                </div>
+              </div>
             )}
 
             <p className="overview">{movie.overview}</p>
