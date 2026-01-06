@@ -33,7 +33,7 @@ function App() {
           }
         />
 
-        <Route path="/details/:id" element={<MovieDetails />} />
+        <Route path="/details/:type/:id" element={<MovieDetails />} />
       </Routes>
     </>
   );
