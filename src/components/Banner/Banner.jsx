@@ -60,7 +60,7 @@ function Banner() {
           </button>
           <button
             className="button"
-            onClick={() => navigate(`/details/${movie.id}`)}
+            onClick={() => navigate(`/details/${movie.media_type}/${movie.id}`)}
           >
             Details
           </button>
